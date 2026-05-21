@@ -1,0 +1,32 @@
+[project]
+name = "alphalife-maspp"
+version = "0.1.0"
+description = "Reproducible experiments for auditable multi-agent alpha lifecycle governance."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Ziyao Wang", email = "ziywang@ttu.edu" }
+]
+dependencies = [
+  "jinja2",
+  "matplotlib",
+  "numpy",
+  "openpyxl",
+  "pandas",
+  "pyarrow",
+  "python-dotenv",
+  "requests",
+  "scikit-learn",
+  "scipy",
+  "statsmodels",
+  "tabulate"
+]
+
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
