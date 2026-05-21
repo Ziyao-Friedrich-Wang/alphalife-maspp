@@ -759,7 +759,7 @@ def run(args: argparse.Namespace) -> Path:
     impl_attr = implementation_attribution(messages, returns_by_weighting)
     impl_attr.to_csv(out_dir / "mas_implementation_attribution.csv", index=False)
 
-    paper_dir = ensure_dir(out_dir / "paper_tables")
+    tables_dir = ensure_dir(out_dir / "analysis_tables")
     perf_rows = summary[summary["strategy"].isin(MAS_STRATEGIES)][
         [
             "strategy",
@@ -778,30 +778,30 @@ def run(args: argparse.Namespace) -> Path:
     ]
     write_latex_table(
         perf_rows,
-        paper_dir / "table_mas_coordination.tex",
+        tables_dir / "table_mas_coordination.tex",
         percent_cols={"ann_return", "max_drawdown", "es_5", "avg_turnover", "avg_switch", "ff6_alpha_ann"},
     )
 
     conflict_rows = conflicts_sum[["conflict_type", "n_cases", "q_action_return", "full_action_return", "governor_value"]]
     write_latex_table(
         conflict_rows,
-        paper_dir / "table_conflict_resolution.tex",
+        tables_dir / "table_conflict_resolution.tex",
         percent_cols={"q_action_return", "full_action_return", "governor_value"},
     )
 
     dis_rows = disagree[disagree["strategy"].isin(["mas_no_communication", "centralized_constrained_q", "linear_pipeline_mas", "full_mas"])][
         ["bucket", "strategy", "sharpe", "ann_return", "max_drawdown", "n_months"]
     ]
-    write_latex_table(dis_rows, paper_dir / "table_disagreement_buckets.tex", percent_cols={"ann_return", "max_drawdown"})
-    write_latex_table(boot, paper_dir / "table_bootstrap_sharpe.tex")
+    write_latex_table(dis_rows, tables_dir / "table_disagreement_buckets.tex", percent_cols={"ann_return", "max_drawdown"})
+    write_latex_table(boot, tables_dir / "table_bootstrap_sharpe.tex")
     write_latex_table(
         downside_boot,
-        paper_dir / "table_downside_bootstrap.tex",
+        tables_dir / "table_downside_bootstrap.tex",
         percent_cols={"max_dd_diff", "dd_ci_low", "dd_ci_high", "es5_diff", "es_ci_low", "es_ci_high"},
     )
     write_latex_table(
         impl_attr,
-        paper_dir / "table_implementation_attribution.tex",
+        tables_dir / "table_implementation_attribution.tex",
         percent_cols={"selection_share", "mean_next_return", "low_coverage_share"},
     )
 

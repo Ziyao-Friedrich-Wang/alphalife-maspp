@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Paper-oriented AlphaLife-MAS empirical suite.
+"""Full AlphaLife-MAS empirical suite.
 
-This extends the MVP into a full set of paper-ready outputs:
+This extends the MVP into a full set of reproducible experiment outputs:
 - main lifecycle allocation experiment
 - ablations
 - robustness over lookbacks and factor-return weightings
@@ -616,7 +616,7 @@ Interpretation for writing: the current rule-based Warning label captures instab
 - Mean 12-month improvement: {repair_summary.get('mean_improvement', float('nan')):.2%}
 - Median 12-month improvement: {repair_summary.get('median_improvement', float('nan')):.2%}
 
-This supports the paper claim that constrained repair is empirically meaningful, but not universally successful.
+This supports the claim that constrained repair is empirically meaningful, but not universally successful.
 
 ## Stock-Level Validation
 
@@ -630,9 +630,9 @@ Share of JKP factors with Fama-French 5 + Momentum R-squared above 0.5: {style_h
 
 This supports the need for a Style Exposure Agent: many Alpha returns are partly explainable by known factor families, so lifecycle admission should consider marginal contribution rather than raw return alone.
 
-## Paper-Ready Claim
+## Reproducible Result Claim
 
-The results support a method paper framed around Alpha lifecycle governance rather than Alpha discovery. The strongest empirical claims are:
+The results support a method framed around Alpha lifecycle governance rather than Alpha discovery. The strongest empirical claims are:
 
 1. A lifecycle-aware factor allocation improves Sharpe over static and simple rolling Sharpe baselines in the 1990-2024 OOS window.
 2. Constrained repair has a positive average and median future-return improvement on Warning/Decayed factor states.
@@ -646,7 +646,7 @@ The results support a method paper framed around Alpha lifecycle governance rath
 3. Repair actions are restricted to weighting-scheme switching and should be extended to residualization, liquidity filters, and regime gates.
 4. Transaction costs are proxied only indirectly in this version.
 """
-    (out_dir / "paper_results_summary.md").write_text(text, encoding="utf-8")
+    (out_dir / "experiment_results_summary.md").write_text(text, encoding="utf-8")
 
 
 def run(args: argparse.Namespace) -> Path:

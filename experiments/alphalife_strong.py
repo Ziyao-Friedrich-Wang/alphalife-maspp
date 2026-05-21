@@ -793,7 +793,7 @@ def run(args: argparse.Namespace) -> Path:
     calibration.to_csv(out_dir / "lifecycle_calibration_bins.csv", index=False)
     (out_dir / "lifecycle_calibration_metrics.json").write_text(json.dumps(cal_metrics, indent=2), encoding="utf-8")
 
-    paper_dir = ensure_dir(out_dir / "paper_tables")
+    tables_dir = ensure_dir(out_dir / "analysis_tables")
     main_rows = summary[summary["strategy"].isin([
         "static_equal",
         "rolling_sharpe",
@@ -822,7 +822,7 @@ def run(args: argparse.Namespace) -> Path:
     ]
     write_latex_table(
         main_rows,
-        paper_dir / "table_cost_aware_main.tex",
+        tables_dir / "table_cost_aware_main.tex",
         percent_cols={"ann_return_net", "max_drawdown_net", "avg_turnover", "avg_switch_rate", "ff6_alpha_ann"},
     )
 
@@ -839,7 +839,7 @@ def run(args: argparse.Namespace) -> Path:
     ])][["strategy", "net_sharpe_10bps", "max_drawdown_net", "avg_turnover", "avg_switch_rate", "ff6_alpha_tstat"]]
     write_latex_table(
         ablation_rows,
-        paper_dir / "table_agent_ablation.tex",
+        tables_dir / "table_agent_ablation.tex",
         percent_cols={"max_drawdown_net", "avg_turnover", "avg_switch_rate"},
     )
 
@@ -848,22 +848,22 @@ def run(args: argparse.Namespace) -> Path:
     ]
     write_latex_table(
         repair_rows,
-        paper_dir / "table_repair_placebo.tex",
+        tables_dir / "table_repair_placebo.tex",
         percent_cols={"success_rate", "mean_improvement", "median_improvement", "oracle_capture"},
     )
 
     sub = subperiod[subperiod["strategy"].isin(["static_equal", "rolling_sharpe", "alphalife_full", "alphalife_triggered_repair"])][
         ["period", "strategy", "sharpe", "ann_return", "max_drawdown", "hit_rate"]
     ]
-    write_latex_table(sub, paper_dir / "table_subperiod.tex", percent_cols={"ann_return", "max_drawdown", "hit_rate"})
+    write_latex_table(sub, tables_dir / "table_subperiod.tex", percent_cols={"ann_return", "max_drawdown", "hit_rate"})
 
     nested_rows = nested[nested["strategy"].isin(["static_equal", "rolling_sharpe", "alphalife_full", "alphalife_triggered_repair"])][
         ["fold", "selected_lookback", "strategy", "sharpe", "ann_return", "max_drawdown"]
     ]
-    write_latex_table(nested_rows, paper_dir / "table_nested_walk_forward.tex", percent_cols={"ann_return", "max_drawdown"})
+    write_latex_table(nested_rows, tables_dir / "table_nested_walk_forward.tex", percent_cols={"ann_return", "max_drawdown"})
 
     cal_table = pd.DataFrame([cal_metrics])
-    write_latex_table(cal_table, paper_dir / "table_calibration_metrics.tex")
+    write_latex_table(cal_table, tables_dir / "table_calibration_metrics.tex")
 
     make_plots(out_dir, port, repair_summary, calibration)
     manifest = sorted(str(p.relative_to(out_dir)) for p in out_dir.rglob("*") if p.is_file())

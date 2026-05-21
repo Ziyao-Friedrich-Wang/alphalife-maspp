@@ -20,8 +20,7 @@ proxy setting.
 ```text
 experiments/              Core experiment scripts
 scripts/                  Data generation, smoke tests, and run wrappers
-paper/                    arXiv-style LaTeX source and architecture figure
-results/                  Compact result snapshots used by the paper
+results/                  Compact result snapshots for verification
 data/README.md            Expected empirical data layout
 ```
 
@@ -56,7 +55,7 @@ python scripts/run_smoke_test.py --data-root data/synthetic
 
 The generated files and test outputs are ignored by git.
 
-## Reproducing the MAS++ paper tables
+## Reproducing the MAS++ result snapshots
 
 Place the empirical JKP-style monthly U.S. anomaly factor-return files under
 `data/jkp` as described in `data/README.md`, then run:
@@ -90,21 +89,10 @@ The main experiment expects monthly factor-return files with columns:
 date,name,ret,n_stocks
 ```
 
-The paper evaluation uses value-weighted, equal-weighted, and value-weighted
+The empirical evaluation uses value-weighted, equal-weighted, and value-weighted
 with capacity proxy implementations. The repository does not ship the raw
 empirical panel because it is large and may be subject to redistribution
 constraints.
-
-## Paper
-
-The LaTeX source is in `paper/main.tex`.
-
-```bash
-cd paper
-latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-```
-
-Compiled PDFs are ignored by git.
 
 ## Security and credentials
 
